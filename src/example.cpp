@@ -159,7 +159,10 @@ main (int argc, char** argv)
 
   // Create a ROS subscriber for the input point cloud
   ros::Subscriber subRT = nh.subscribe("DO/inferenceOut/Transformation",1,rt_cb);
-  ros::Subscriber sub = nh.subscribe ("/camera/depth_registered/points", 1, cloud_cb);
+ 
+  std::string point_topic;
+  ros::param::get("~in_point_topic", point_topic);
+  ros::Subscriber sub = nh.subscribe (point_topic, 1, cloud_cb);
   // Create a ROS publisher for the output point cloud
   pub = nh.advertise<sensor_msgs::PointCloud2> ("my_pcl/downsampling", 1);
 
